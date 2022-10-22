@@ -1,0 +1,23 @@
+{
+    "name": "arno14/magic_call",
+    "description": "Library to handle magic getter, setter and method",
+    "type": "library",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "10.0.x-dev"
+    },
+    "license": "WTFPL",
+    "autoload": {
+        "psr-4": {
+            "Arno14\\MagicCall\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arnaud",
+            "email": "arnolepeltier.dev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
