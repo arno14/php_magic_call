@@ -49,11 +49,9 @@ $iterator = new \RecursiveIteratorIterator($directory);
 
 
 foreach ($iterator as $item) {
-    if ($item->isFile()) {
+    if ($item instanceof SplFileInfo && $item->isFile()) {
         $dumpClasses($item);
-        continue;
     }
-    // print_r($item);
 }
 
 echo PHP_EOL;
