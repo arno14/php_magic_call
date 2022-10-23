@@ -8,13 +8,24 @@ use ReflectionClass;
 
 class CallConfig
 {
+    /**
+     * @var (bool|string)[]
+     */
     public array $property_read=[];
+    /**
+    * @var (bool|string)[]
+    */
     public array $property_write=[];
-
+    /**
+     * @var string[]
+     */
     public array $debug_logs=[];
 
     public ReflectionClass $reflection;
 
+    /**
+    * @param class-string $className
+    */
     public function __construct(public readonly string $className)
     {
         $this->reflection = new ReflectionClass($className);
@@ -29,6 +40,7 @@ class CallConfig
         $method = $this->property_read[$propertyName];
 
         if (true!==$method) {
+            //@phpstan-ignore-next-line
             return call_user_func([$object, $method]);
         }
 
@@ -46,6 +58,7 @@ class CallConfig
         $method = $this->property_write[$propertyName];
 
         if (true!==$method) {
+            //@phpstan-ignore-next-line
             call_user_func([$object, $method], $value);
 
             return $this;

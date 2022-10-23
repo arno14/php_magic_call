@@ -9,6 +9,9 @@ class CallConfigRegistry
      */
     private static ?array $configurations;
 
+    /**
+     * @var mixed[]
+     */
     private static array $options=[
         'guess_property_read_from_phpdoc'=>false,
         'guess_property_write_from_phpdoc'=>false,
@@ -18,25 +21,35 @@ class CallConfigRegistry
         'cache_ttl'=>3600
     ];
 
-    public static function configure(array $options)
+    /**
+     * @param mixed[] $options
+     */
+    public static function configure(array $options): void
     {
         self::$options=$options+self::$options;
     }
 
-    public static function getConfiguration(string $className): CallConfig
+    /**
+    * @param class-string $className
+    */
+    public static function getConfig(string $className): CallConfig
     {
         if (!isset(self::$configurations[$className])) {
-            self::$configurations[$className]=self::createConfiguration($className);
+            self::$configurations[$className]=self::createConfig($className);
         }
 
         return self::$configurations[$className];
     }
 
-    private static function createConfiguration(string $className): CallConfig
+    /**
+     * @param class-string $className
+     */
+    private static function createConfig(string $className): CallConfig
     {
         $builder = new CallConfigBuilder($className);
 
         if (method_exists($className, 'configureMagicCall')) {
+            //@phpstan-ignore-next-line
             call_user_func([$className,'configureMagicCall'], $builder);
         }
 
@@ -48,6 +61,6 @@ class CallConfigRegistry
             $builder->guessPropertyReadFromPhpDoc();
         }
 
-        return $builder->getConfiguration();
+        return $builder->getConfig();
     }
 }

@@ -10,11 +10,11 @@ trait MagicCallTrait
 
     public function __get($name)
     {
-        return CallConfigRegistry::getConfiguration(__CLASS__)->readProperty($this, $name);
+        return CallConfigRegistry::getConfig(__CLASS__)->readProperty($this, $name);
     }
 
     public function __set($name, $value)
     {
-        return CallConfigRegistry::getConfiguration(__CLASS__)->writeProperty($this, $name, $value);
+        return CallConfigRegistry::getConfig(__CLASS__)->writeProperty($this, $name, $value);
     }
 }
