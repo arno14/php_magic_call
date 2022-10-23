@@ -21,6 +21,9 @@ class CallConfigBuilder
         $this->config = new CallConfig($className);
     }
 
+    /**
+     * @param string|boolean $methodName name of the class method to redirect the magic call, if value is false, the property read is disabled
+     */
     public function addPropertyRead(string $propertyName, string|bool $methodName=true): self
     {
         if (false===$methodName) {
@@ -38,6 +41,9 @@ class CallConfigBuilder
         return $this;
     }
 
+    /**
+     * @param string|boolean $methodName name of the class method to redirect the magic call, if value is false, the property write is disabled
+     */
     public function addPropertyWrite(string $propertyName, string|bool $methodName=true): self
     {
         if (false===$methodName) {

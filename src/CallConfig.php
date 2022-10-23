@@ -5,6 +5,7 @@ namespace Arno14\MagicCall;
 use Exception;
 use Reflection;
 use ReflectionClass;
+use ReflectionProperty;
 
 class CallConfig
 {
@@ -21,7 +22,12 @@ class CallConfig
      */
     public array $debug_logs=[];
 
-    public ReflectionClass $reflection;
+    public readonly ReflectionClass $reflection;
+
+    /**
+     * @var ReflectionProperty[]
+     */
+    protected $reflectionProperties=[];
 
     /**
     * @param class-string $className
@@ -44,7 +50,7 @@ class CallConfig
             return call_user_func([$object, $method]);
         }
 
-        $prop = $this->reflection->getProperty($propertyName);
+        $prop = $this->getReflectionProperty($propertyName);
 
         return $prop->getValue($object);
     }
@@ -64,12 +70,19 @@ class CallConfig
             return $this;
         }
 
-        $prop = $this->reflection->getProperty($propertyName);
-
-        $prop->setAccessible(true);
+        $prop = $this->getReflectionProperty($propertyName);
 
         $prop->setValue($object, $value);
 
         return $object;
+    }
+
+    private function getReflectionProperty(string $propertyName): ReflectionProperty
+    {
+        if (!isset($this->reflectionProperties[$propertyName])) {
+            $this->reflectionProperties[$propertyName]=$this->reflection->getProperty($propertyName);
+            $this->reflectionProperties[$propertyName]->setAccessible(true);
+        }
+        return $this->reflectionProperties[$propertyName];
     }
 }

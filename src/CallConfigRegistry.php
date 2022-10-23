@@ -48,17 +48,17 @@ class CallConfigRegistry
     {
         $builder = new CallConfigBuilder($className);
 
-        if (method_exists($className, 'configureMagicCall')) {
-            //@phpstan-ignore-next-line
-            call_user_func([$className,'configureMagicCall'], $builder);
-        }
-
         if (self::$options['guess_property_read_from_phpdoc']) {
             $builder->guessPropertyReadFromPhpDoc();
         }
 
         if (self::$options['guess_property_write_from_phpdoc']) {
             $builder->guessPropertyReadFromPhpDoc();
+        }
+
+        if (method_exists($className, 'configureMagicCall')) {
+            //@phpstan-ignore-next-line
+            call_user_func([$className,'configureMagicCall'], $builder);
         }
 
         return $builder->getConfig();
