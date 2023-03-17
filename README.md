@@ -1,6 +1,15 @@
 MAGIC_CALL LIBRARY
 
 
+Using the trait MagicCallTrait, protected and private properties can be accessed via magic getter/setter.
+
+override the method configureMagicCall to define which property should be accessed
+
+The read-write props can also be guessed from the php doc
+
+see test for usage
+
+
 @todo:
 - documentation
   
